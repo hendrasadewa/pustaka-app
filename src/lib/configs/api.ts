@@ -7,7 +7,7 @@ import { getToken } from "../utils";
 
 export function createAPI() {
   const api = ky.create({
-    baseUrl: import.meta.env.BASE_URL,
+    baseUrl: import.meta.env.VITE_BASE_API_URL,
     hooks: {
       beforeRequest: [
         (req) => {
