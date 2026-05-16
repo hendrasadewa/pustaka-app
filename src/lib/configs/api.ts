@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import ky, { isHTTPError, type BeforeErrorState } from "ky";
 
 import { LocalStorageKeys, SessionKeys } from "@/lib/configs/session";
@@ -8,25 +9,42 @@ export function createAPI() {
     baseUrl: import.meta.env.VITE_BASE_API_URL,
     hooks: {
       beforeRequest: [
-        req => {
+        (req) => {
           const token = localStorage.getItem(LocalStorageKeys.TOKEN);
-          if (!token) {
-            return;
+          if (token) {
+            req.request.headers.set(
+              "Authorization",
+              `${SessionKeys.TOKEN_TYPE} ${token}`,
+            );
           }
-          req.request.headers.set("Authorization", `${SessionKeys.TOKEN_TYPE} ${token}`)
         },
       ],
+
       beforeError: [
         async ({ error }: BeforeErrorState) => {
-          if (isHTTPError(error)) {
-            const body = await error.response.clone().json() as APIResponse<null>;
-            error.message = body.message ?? error.message;
+          const httpError = isHTTPError<APIResponse<null>>(error);
+          if (!httpError) {
+            console.error(error);
             return error;
           }
+          if (
+            typeof error.data === "object" &&
+            error.data !== null &&
+            "message" in error.data
+          ) {
+            toast.error("Request Failed", {
+              description: error.data.message || error.message,
+            });
+          }
+
+          if (error.response.status === 401) {
+            globalThis.location.href = "/logout";
+          }
+
           return error;
         },
       ],
-    }
+    },
   });
 
   return api;

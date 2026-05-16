@@ -1,12 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from 'react-hook-form';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router';
 
+import { AuthContext } from '@/components/AuthContext';
 import { loginUser, registerUser } from "./api";
 import { LoginSchema, RegisterSchema, type LoginPayload, type RegisterPayload } from "./dto";
-import { useContext } from 'react';
-import { AuthContext } from '@/components/AuthContext';
-import { useNavigate } from 'react-router';
 
 export function useLogin() {
   const navigate = useNavigate();
@@ -20,7 +20,8 @@ export function useLogin() {
     mutationFn: (payload: LoginPayload) =>
       loginUser(payload.email, payload.password),
     onSuccess: async (response) => {
-      loadSession(response.data.token)
+      const json = await response.json()
+      loadSession(json.data.token);
       navigate("/admin/books");
     }
   });

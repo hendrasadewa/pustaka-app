@@ -1,10 +1,15 @@
 import { createBrowserRouter } from "react-router";
 import { Root } from "./root";
-import HomePage from "./pages/HomePage";
-import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages";
+import LoginPage from "./pages/login";
 import DashboardLayout from "./components/DashboardLayout";
-import BookDirectoryPage from "./pages/BookDirectoryPage";
-import { RegisterForm } from "./components/RegisterForm";
+import AdminBooksPage from "./pages/admin/books";
+import { BookDetailPage } from "./pages/admin/books/id";
+import { EditBookPage } from "./pages/admin/books/id/edit";
+import { CreateBookPage } from "./pages/admin/books/create";
+import { LogoutPage } from "./pages/logout";
+import RegisterPage from "./pages/register";
+import BookByISBNPage from "./pages/books/isbn";
 
 export const router = createBrowserRouter([
   {
@@ -16,12 +21,20 @@ export const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
+        path: "/book/isbn/:isbn",
+        element: <BookByISBNPage />,
+      },
+      {
         path: "/login",
         element: <LoginPage />,
       },
       {
+        path: "/logout",
+        element: <LogoutPage />,
+      },
+      {
         path: "/register",
-        element: <RegisterForm />,
+        element: <RegisterPage />,
       },
       {
         path: "/admin",
@@ -34,17 +47,21 @@ export const router = createBrowserRouter([
                 path: "/admin/books",
                 children: [
                   {
-                    index: true,
                     path: "/admin/books",
-                    element: <BookDirectoryPage />,
+                    index: true,
+                    element: <AdminBooksPage />,
                   },
                   {
-                    path: "/admin/books/loan",
-                    element: <HomePage />,
+                    path: "/admin/books/create",
+                    element: <CreateBookPage />,
                   },
                   {
-                    path: "/admin/books/return",
-                    element: <HomePage />,
+                    path: "/admin/books/:id",
+                    element: <BookDetailPage />,
+                  },
+                  {
+                    path: "/admin/books/:id/edit",
+                    element: <EditBookPage />,
                   },
                 ],
               },

@@ -45,10 +45,10 @@ export const getBooks = (
     .json();
 
 export const createBook = (payload: BookCreatePayload) =>
-  api.post<APIResponse<BookEntity | null>>("/books", { json: payload });
+  api.post<APIResponse<BookEntity | null>>("/admin/books", { json: payload });
 
 export const updateBook = (payload: BookUpdatePayload, id: string) =>
-  api.put<APIResponse<BookEntity | null>>(`/books/${id}`, { json: payload });
+  api.put<APIResponse<BookEntity | null>>(`/admin/books/${id}`, { json: payload });
 
 export const deleteBook = (id: string) =>
   api.delete<APIResponse<BookEntity | null>>(`/books/${id}`);

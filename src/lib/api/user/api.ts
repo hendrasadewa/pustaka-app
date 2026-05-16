@@ -21,7 +21,7 @@ export const loginUser = (email: string, password: string) =>
       email,
       password,
     },
-  }).json();
+  });
 
 export const getMyInfo = () => api.get<APIResponse<UserEntity>>("/users/me").json();
 

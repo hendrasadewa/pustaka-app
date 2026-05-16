@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 export type CameraPermission = "idle" | "requesting" | "granted" | "denied" | "unavailable";
 
@@ -23,10 +23,6 @@ export function useCameraPermission() {
       }
     }
   }, []);
-
-  useEffect(() => {
-    requestCameraPermission();
-  }, [requestCameraPermission]);
 
   return { permission, requestCameraPermission };
 }
