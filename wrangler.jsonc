@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "pustaka-app",
+  "compatibility_date": "2026-05-16",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "not_found_handling": "single-page-application"
+  },
+  "vars": {
+    "BASE_API_URL": "https://localhost:8787"
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 import { getBookByISBN } from "@/lib/api/book/api";
 import { Book } from "@/components/Book";
@@ -9,6 +9,7 @@ import { ChevronLeftCircle } from "lucide-react";
 
 export default function BookByISBNPage() {
   const { isbn = "" } = useParams<{ isbn: string }>();
+  const navigate = useNavigate();
 
   const getBookQuery = useQuery({
     queryKey: ["books", "isbn", isbn],
@@ -22,6 +23,10 @@ export default function BookByISBNPage() {
     },
   });
 
+  const handleBackClick = () => {
+    navigate(-1);
+  };
+
   return (
     <>
       <div className="flex flex-col h-screen">
@@ -33,12 +38,16 @@ export default function BookByISBNPage() {
                 "bg-linear-to-b from-emerald-800 to-emerald-900",
                 "py-8",
                 "min-h-3/4",
-                "relative"
+                "relative",
               )}
               id="hero"
             >
               <nav className={cx("absolute top-2 left-2")}>
-                <Button variant="ghost" className="text-taupe-50">
+                <Button
+                  variant="ghost"
+                  className="text-taupe-50"
+                  onClick={handleBackClick}
+                >
                   <ChevronLeftCircle size={32} /> Back
                 </Button>
               </nav>

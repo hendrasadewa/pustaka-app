@@ -9,6 +9,7 @@ import { Book } from "@/components/Book";
 import { getBooks } from "@/lib/api/book/api";
 import { BookScannerDialog } from "@/components/BookScannerDialog";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -17,6 +18,10 @@ export default function HomePage() {
   const listQuery = useQuery({
     queryKey: ["books"],
     queryFn: () => getBooks(),
+    select(response) {
+      toast.success("Book fetched successfully")
+      return response
+    },
   });
 
   const handleBarcodeDetected = (value: string) => {
